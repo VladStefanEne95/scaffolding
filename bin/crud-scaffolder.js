@@ -1,9 +1,6 @@
 #!/usr/bin/env node
 
 'use strict';
-const fs = require('fs');
-var input_arr = fs.readFileSync('./input.txt', 'utf8');
-console.log(input_arr);
 
 
 var pluralize = require('pluralize');
