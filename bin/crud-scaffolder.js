@@ -12,7 +12,7 @@ var inputul = require('../lib/scaffolding-folder/index');
 
 var allowedTypes = ['string', 'number', 'date', 'boolean', 'array'];
 
-for(var aux in inputul){
+for(var aux in inputul) {
 
   var input, modelName, pluralName;
   var obj_prop;
@@ -40,7 +40,7 @@ for(var aux in inputul){
             type: obj_prop[key]
           });
     }
-}
+  }
   if (!fs.existsSync('models'))
     fs.mkdir('models');
   if (!fs.existsSync('controllers'))
@@ -51,7 +51,7 @@ for(var aux in inputul){
       showUsage('There was a problem generating the model file.');
     }
     console.log('Model file generated.');
-});
+  });
 
    controllerGenerator.generateController(modelName, pluralName, types, function(err) {
     if (err) {
