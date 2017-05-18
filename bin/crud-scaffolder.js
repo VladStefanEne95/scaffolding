@@ -2,113 +2,78 @@
 
 'use strict';
 
-
+var fs = require('fs');
 var pluralize = require('pluralize');
 var modelGenerator = require('../lib/model-generator');
 var controllerGenerator = require('../lib/controller-generator');
 var viewsGenerator = require('../lib/view-generator');
 var capitalize = require('../lib/utils').capitalize;
+var inputul = require('../lib/scaffolding-folder/index');
 
-var args = process.argv.slice(2);
-console.log(args);
-if (!args.length) {
-  showUsage('To use, provide at least the model name.');
-}
+var allowedTypes = ['string', 'number', 'date', 'boolean', 'array'];
 
+for(var aux in inputul){
 
+  var input, modelName, pluralName;
+  var obj_prop;
+  var types = [];
 
-// Take the first arg as model name
-var modelName = args.shift().toLowerCase();
+  input = inputul[aux];
 
-var pluralName = pluralize.plural(modelName);
-
-console.log('Preparing data for model ', modelName + ', pluralized: ', pluralName + '.');
-
-// Parse arguments to set types
-var types = [];
-
-// if we don't get any, just add a name field.
-if (!args.length) {
-  types.push({
-    name: 'name',
-    type: 'String'
-  });
-}
-
-var allowedTypes = ['string', 'number', 'date', 'boolean', 'array', 'mixed'];
-  // if we get arguments, generate from what we've got.
-args.forEach(function(field) {
-  var boundary = field.lastIndexOf(':'); // we support colons in field names. Who cares?
-  var fieldName = field;
-  var fieldType = 'string';
-  if (boundary > -1) {
-    fieldName = field.substr(0, boundary);
-    fieldType = field.substr(boundary + 1);
+  for (var key in input) {
+    if (input.hasOwnProperty(key)) {
+        modelName = key;
+        pluralName = pluralize.plural(modelName);
+        obj_prop = input[key];
+    }
   }
-  if (!fieldName.length) {
-    showUsage('Please set the correct name for the field ' + field);
-  }
-  if (!fieldType.length) {
-    showUsage('Please set field type for field ' + fieldName);
-  }
-  if (allowedTypes.indexOf(fieldType.toLowerCase()) === -1) {
-    showUsage('Property type ' + fieldType + ' not allowed for field ' + fieldName);
-  }
-  types.push({
-    name: fieldName,
-    type: getFieldType(fieldType)
-  });
 
-});
-function getFieldType (fieldType) {
 
-    if (fieldType !== 'mixed') {
-
-        return capitalize(fieldType.toLowerCase())
-    } else {
-
-        return '"mongoose.schema.types.Mixed"'
+  for (var key in obj_prop) {
+    if (allowedTypes.indexOf(obj_prop[key].toLowerCase()) === -1) {
+      showUsage("Property type" + obj_prop[key] + "not allowed");
+      process.exit(1);
+    }
+    if (obj_prop.hasOwnProperty(key)) {
+          types.push({
+            name: key,
+            type: obj_prop[key]
+          });
     }
 }
+  if (!fs.existsSync('models'))
+    fs.mkdir('models');
+  if (!fs.existsSync('controllers'))
+    fs.mkdir('controllers');
 
-console.log('Fields: ', types);
+  modelGenerator.generateModel(modelName, pluralName, types, function(err) {
+    if (err) {
+      showUsage('There was a problem generating the model file.');
+    }
+    console.log('Model file generated.');
+});
 
-console.log('Generating mongoose model for ' + modelName + '...');
-modelGenerator.generateModel(modelName, pluralName, types, function(err) {
-  if (err) {
-    showUsage('There was a problem generating the model file.');
-  }
-  console.log('... Model file generated.');
-  controllerGenerator.generateController(modelName, pluralName, types, function(err) {
+   controllerGenerator.generateController(modelName, pluralName, types, function(err) {
     if (err) {
       showUsage('There was a problem generating the controller file.');
     }
     console.log('Generated controller');
-    viewsGenerator.generateViews(modelName, pluralName, types, function(err) {
-      if (err) {
-        showUsage('There was a problem generating the views files.');
-      }
-      console.log('Generated views');
-    });
   });
-});
+}
 
 function showUsage(err) {
 
-  console.log('Mongoose CRUD Scaffolder version 0.1.0\r\n');
-  if (err) {
-
+  if (err)
     console.log('Error: ', err + '\r\n');
-  }
 
   console.log('Example:\r\n    ' + process.argv[1].substr(process.argv[1].lastIndexOf('/') + 1) +
     ' user firstName lastName age:Number\r\n');
   console.log('Supported data types (case insensitive): String, Boolean, Number, Date, Array.');
   console.log('The script will overwrite any existing file content for target files.\r\n');
-  console.log('For detailed, see https://github.com/zladuric/mongoose-crud-scaffolder.');
-  if (err) {
+
+  if (err)
     process.exit(1);
-  } else {
+  else
     process.exit(0);
-  }
+
 }
