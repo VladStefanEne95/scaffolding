@@ -5,6 +5,11 @@
 var fs = require('fs');
 var pluralize = require('pluralize');
 var modelGenerator = require('../lib/model-generator');
+var angModelGenerator = require('../lib/angularModelGenerator');
+var angDetailGenerator = require('../lib/detail-generator');
+var angServiceGenerator = require('../lib/service-generator');
+var angRouteGenerator = require('../lib/route-generator');
+var angComponentGenerator = require('../lib/component-generator');
 var controllerGenerator = require('../lib/controller-generator');
 var viewsGenerator = require('../lib/view-generator');
 var capitalize = require('../lib/utils').capitalize;
@@ -12,7 +17,19 @@ var inputul = require('../lib/scaffolding-folder/index');
 
 var allowedTypes = ['string', 'number', 'date', 'boolean', 'array'];
 
-for(var aux in inputul) {
+var ang_scaffold = require('../lib/scaffolding-folder/angularVar');
+
+  if (!fs.existsSync('ang-app'))
+    fs.mkdir('ang-app');
+
+angModelGenerator.angGenerateModel(ang_scaffold);
+angDetailGenerator.angGenerateDetail(ang_scaffold);
+angServiceGenerator.angGenerateService(ang_scaffold);
+angComponentGenerator.angGenerateComponent(ang_scaffold);
+angRouteGenerator.angGenerateRoute(ang_scaffold);
+
+
+for(var aux in inputul){
 
   var input, modelName, pluralName;
   var obj_prop;
@@ -40,7 +57,7 @@ for(var aux in inputul) {
             type: obj_prop[key]
           });
     }
-  }
+}
   if (!fs.existsSync('models'))
     fs.mkdir('models');
   if (!fs.existsSync('controllers'))
@@ -51,7 +68,7 @@ for(var aux in inputul) {
       showUsage('There was a problem generating the model file.');
     }
     console.log('Model file generated.');
-  });
+});
 
    controllerGenerator.generateController(modelName, pluralName, types, function(err) {
     if (err) {
@@ -59,6 +76,7 @@ for(var aux in inputul) {
     }
     console.log('Generated controller');
   });
+
 }
 
 function showUsage(err) {
