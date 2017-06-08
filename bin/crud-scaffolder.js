@@ -14,12 +14,12 @@ var angComponentGenerator = require('../lib/component-generator');
 var controllerGenerator = require('../lib/controller-generator');
 var viewsGenerator = require('../lib/view-generator');
 var capitalize = require('../lib/utils').capitalize;
-var inputul = require('../lib/server/index');
+var inputul = require('../models');
 
 var allowedTypes_server = ['string', 'number', 'date', 'boolean', 'array'];
 var allowedTypes_client = ['string', 'number', 'date', 'boolean', 'array', 'any'];
 
-var client_input = require('../lib/client/index');
+var client_input = require('../models');
 
 
   var args = process.argv.slice(2);

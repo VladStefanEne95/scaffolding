@@ -1,91 +1,9 @@
 {
-  "_args": [
-    [
-      {
-        "name": "mongoose-scaffold-crud",
-        "raw": "mongoose-scaffold-crud",
-        "rawSpec": "",
-        "scope": null,
-        "spec": "latest",
-        "type": "tag"
-      },
-      ""
-    ]
-  ],
-  "_from": "mongoose-scaffold-crud@latest",
-  "_id": "mongoose-scaffold-crud@0.2.0",
-  "_inCache": true,
-  "_installable": true,
-  "_location": "/mongoose-scaffold-crud",
-  "_nodeVersion": "0.10.29",
-  "_npmUser": {
-    "email": "zladuric@gmail.com",
-    "name": "zladuric"
-  },
-  "_npmVersion": "2.1.1",
-  "_phantomChildren": {},
-  "_requested": {
-    "name": "mongoose-scaffold-crud",
-    "raw": "mongoose-scaffold-crud",
-    "rawSpec": "",
-    "scope": null,
-    "spec": "latest",
-    "type": "tag"
-  },
-  "_requiredBy": [
-    "#USER"
-  ],
-  "_resolved": "https://registry.npmjs.org/mongoose-scaffold-crud/-/mongoose-scaffold-crud-0.2.0.tgz",
-  "_shasum": "b51df013109782a836650df5db9913d3c56a07e2",
-  "_shrinkwrap": null,
-  "_spec": "mongoose-scaffold-crud",
-  "_where": "",
-  "author": {
-    "name": "Zlatko Đurić"
-  },
-  "bin": {
-    "mongoose-scaffold-crud": "bin/crud-scaffolder.js"
-  },
-  "bugs": {
-    "url": "https://github.com/zladuric/mongoose-crud-scaffolder/issues"
-  },
-  "dependencies": {
-    "pluralize": "^0.0.10"
-  },
-  "description": "Crude Mongoose model, REST + CRUD Controller and EJS views generator.",
-  "devDependencies": {},
-  "directories": {},
-  "dist": {
-    "shasum": "b51df013109782a836650df5db9913d3c56a07e2",
-    "tarball": "https://registry.npmjs.org/mongoose-scaffold-crud/-/mongoose-scaffold-crud-0.2.0.tgz"
-  },
-  "gitHead": "594baf4c70bb15f4cdc5f2e2d8876b10136d701e",
-  "homepage": "https://github.com/zladuric/mongoose-crud-scaffolder",
-  "keywords": [
-    "scaffold",
-    "code-generator",
-    "generator",
-    "crud",
-    "mongoose",
-    "mvc"
-  ],
-  "license": "BSD",
-  "main": "bin/crud-scaffolder",
-  "maintainers": [
-    {
-      "email": "zladuric@gmail.com",
-      "name": "zladuric"
-    }
-  ],
-  "name": "mongoose-scaffold-crud",
-  "optionalDependencies": {},
-  "readme": "ERROR: No README data found!",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/zladuric/mongoose-crud-scaffolder.git"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "version": "0.2.0"
+    "name": "scaffolding",
+    "version": "0.0.1",
+    "description": "crud scaffolding.",
+    "preferGlobal": "true",
+    "bin": { "appfx": "bin/crud-scaffolder.js" },
+    "author": "Vlad",
+    "engines": { "node": "*" }
 }
